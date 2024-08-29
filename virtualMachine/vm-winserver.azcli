@@ -1,0 +1,41 @@
+# Login do azure
+
+az login
+
+#Parametros
+
+rg=rg-winserver
+local=brazilsouth
+vm=vm-winserver
+img=Win2022AzureEditionCore
+user=azureuser
+
+#Criar Grupo de Recursos 
+
+az group create -n $rg -l $local
+
+
+#Criar Vm Com Windows Server 2022 Azure Edition Core
+
+az vm create -g $rg -n $vm --image $img --admin-username $user --admin-password T3cb4rr4@230581
+
+# Listar VMs do Azure
+
+az vm list -g $rg
+
+az vm list -g $rg -o yaml
+
+# Mostrar Detalhes da VM
+
+az vm show -g $rg -n $vm -o yaml
+az vm show -g $rg -n $vm --query "name"
+
+# Obter o Ip publico 
+
+az vm show -d -g $rg -n $vm -- query publicips -o tsv
+
+# Abrir Porta 80 da VM
+
+az vm open-port --port 80 -g $rg -n $vm
+
+
