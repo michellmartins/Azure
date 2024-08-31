@@ -27,15 +27,31 @@ az vm list -g $rg -o yaml
 
 # Mostrar Detalhes da VM
 
+az vm show -g $rg -n $vm
 az vm show -g $rg -n $vm -o yaml
 az vm show -g $rg -n $vm --query "name"
 
 # Obter o Ip publico 
 
-az vm show -d -g $rg -n $vm -- query publicips -o tsv
+az vm show -d -g $rg -n $vm --query publicIps -o tsv
 
 # Abrir Porta 80 da VM
 
 az vm open-port --port 80 -g $rg -n $vm
 
+# Request no IP Publico da VM
+
+curl 104.41.58.101 
+
+# Instalar IIS Web Server
+
+az vm run-command invoke -g $rg -n $vm --command-id RunPowerShellScript --scripts "Install-WindowsFeature -name Web-Server -IncludeManagementTools"
+
+# Adcionar Pagina Customizadas no IIS
+
+az vm run-command invoke -g $rg -n $vm --command-id RunPowerShellScript --scripts 'Set-Content -Path "C:\inetpub\wwwroot\iisstart.htm" -Value " Oi, Virtual Machine do Aure"' 
+
+# Excluir o grupo de Recursos
+
+az group delete  -n $rg -y
 
