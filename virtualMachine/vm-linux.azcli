@@ -2,3 +2,12 @@
 
 az login
 
+# Parametros
+rg=rg-vmlinux
+local=brazilsouth
+vm=vm-debian
+user=azureuser
+
+# Criar Grupo de Recursos 
+
+
