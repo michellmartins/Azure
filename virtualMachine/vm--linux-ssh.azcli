@@ -1,0 +1,59 @@
+# login no Azure
+
+az login
+
+ssh-keygen -m PEM -t rsa -b 2048
+
+# Parâmetros
+rg=rg-Linux
+local=brazilsouth
+vm=vm-Linux
+img=Ubuntu2204
+user=azureuser
+
+#Criar Grupo de Recursos
+
+az group create -g $rg -l $local
+
+# Criar a Vm
+
+az vm create -g $rg -n $vm --image $img --admin-username $user --ssh-key-value ~/.ssh/id_rsa.pub
+
+# Obter Ip Publico da VM
+
+ip=$(az vm show -d -g $rg -n $vm --query publicIps -o tsv) #4.201.146.35
+
+# Entrar na maqina virtual por SSH 
+
+ssh -i ~/.ssh/id_rsa $user@$ip
+sudo apt update && sudo apt install nginx -y
+
+# sair da Vm
+
+exit
+
+#Abrir a porta 80
+
+az vm open-port --port 80 -g $rg -n $vm 
+
+#Request na porta 80 
+
+curl $ip
+
+#Excluir Grupo de Recursos
+
+az group delete -n $rg -y
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -11,6 +11,42 @@ user=azureuser
 
 # Criar Grupo de Recursos 
 
+az group create -n $rg -l $local
 
-=======
->>>>>>> b9998ac19e224ccd1f92a7d3149461d37e287353
+# Criar VM Linux com Debian
+
+az vm create -g $rg -n $vm --image $img --admin-username $user --generate-ssh-keys --public-ip=sku Basic
+
+# Listar Vms do Azure 
+
+az vm list -g $rg -o yaml
+
+#Mostrar Detalhes do VM
+
+az vm show -g $rg -n $vm -o yaml
+az vm show -g $rg -n $vm --query "name" 
+
+#Obter IP Publico da VM
+
+ip=$(az vm show -d -g $rg -n $vm --query publicIps -o tsv) 
+
+# instalar NGINGX no debian
+
+az vm run-command invoke -g $rg -n $vm --command-id RunShellScript --scripts "sudo apt get update && sudo apt get install -y nginx"
+
+
+# Abrir Porta 80
+
+az vm open-port --port 80 -g $rg -n $vm
+
+# Request na porta 80
+
+curl $ip
+
+# Excluir Grupo de Recursos
+
+az group delete -n $rg -yaml
+
+
+
+
