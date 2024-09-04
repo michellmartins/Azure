@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Login no Azure
 
 az login
@@ -11,3 +12,5 @@ user=azureuser
 # Criar Grupo de Recursos 
 
 
+=======
+>>>>>>> b9998ac19e224ccd1f92a7d3149461d37e287353
